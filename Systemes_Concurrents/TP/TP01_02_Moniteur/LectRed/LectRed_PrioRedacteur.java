@@ -6,9 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import Synchro.Assert;
 
 /** Lecteurs/rédacteurs
- * stratégie d'ordonnancement: priorité aux lecteurs,
+ * stratégie d'ordonnancement: priorité aux rédacteurs,
  * implantation: avec un moniteur. */
-public class LectRed_PrioLecteur implements LectRed {
+public class LectRed_PrioRedacteur implements LectRed {
 
     /** Verrou support du moniteur */
     private Lock mon;
@@ -25,7 +25,7 @@ public class LectRed_PrioLecteur implements LectRed {
     /** Nombre de lecteurs */
     private int numReaders;
 
-    public LectRed_PrioLecteur() {
+    public LectRed_PrioRedacteur() {
         this.mon = new ReentrantLock ();
         this.canRead = mon.newCondition();
         this.canWrite = mon.newCondition();
@@ -76,6 +76,6 @@ public class LectRed_PrioLecteur implements LectRed {
     }
 
     public String nomStrategie() {
-        return "Stratégie: Priorité Lecteurs.";
+        return "Stratégie: Priorité Rédacteurs.";
     }
 }

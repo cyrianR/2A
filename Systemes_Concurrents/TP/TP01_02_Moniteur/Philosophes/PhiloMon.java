@@ -10,6 +10,14 @@ public class PhiloMon implements StrategiePhilo {
     // État d'un philosophe : pense, mange, demande ?
     private EtatPhilosophe[] etat;
 
+    /** Verron support du moniteur */
+    private Lock mon;
+
+    /** Variables condition du moniteur */
+    private Condition canEat;
+
+
+
     /****************************************************************/
 
     public PhiloMon (int nbPhilosophes) {
@@ -18,12 +26,14 @@ public class PhiloMon implements StrategiePhilo {
             etat[i] = EtatPhilosophe.Pense;
         }
         /* XXXX */
+
     }
 
     public void demanderFourchettes (int no) throws InterruptedException
     {
         etat[no] = EtatPhilosophe.Demande;
         /* XXXX */
+        if (etat[Main.PhiloDroite(no)] != EtatPhilosophe.Mange &&)
         etat[no] = EtatPhilosophe.Mange;
         // j'ai les fourchette G et D
         IHMPhilo.poser (Main.FourchetteGauche(no), EtatFourchette.AssietteDroite);
