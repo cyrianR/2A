@@ -1,0 +1,45 @@
+# dune utop
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /home/pekatour/.cache/dune/db
+# Workspace root: /home/pekatour/Documents/Perso/S7/PF/TP04
+# Auto-detected concurrency: 16
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /home/pekatour/.opam/4.11.0/bin/ocamlc.opt -config > /tmp/dune_8698a9_output
+$ (cd _build/.sandbox/ea5298d8a4a4a711e7e3671650272464/default && .ppx/bfcab61e6a21ecf6d2f80029fc1ef484/ppx.exe --cookie 'inline_tests="enabled"' --cookie 'library-name="tp"' -o trie.pp.ml --impl trie.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+$ (cd _build/default && /home/pekatour/.opam/4.11.0/bin/ocamldep.opt -modules -impl trie.pp.ml) > _build/default/.tp.objs/tp__Trie.impl.d
+$ (cd _build/default && /home/pekatour/.opam/4.11.0/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I .tp.objs/byte -I /home/pekatour/.opam/4.11.0/lib/base -I /home/pekatour/.opam/4.11.0/lib/base/base_internalhash_types -I /home/pekatour/.opam/4.11.0/lib/base/caml -I /home/pekatour/.opam/4.11.0/lib/base/shadow_stdlib -I /home/pekatour/.opam/4.11.0/lib/jane-street-headers -I /home/pekatour/.opam/4.11.0/lib/ppx_compare/runtime-lib -I /home/pekatour/.opam/4.11.0/lib/ppx_enumerate/runtime-lib -I /home/pekatour/.opam/4.11.0/lib/ppx_hash/runtime-lib -I /home/pekatour/.opam/4.11.0/lib/ppx_inline_test/config -I /home/pekatour/.opam/4.11.0/lib/ppx_inline_test/runtime-lib -I /home/pekatour/.opam/4.11.0/lib/ppx_sexp_conv/runtime-lib -I /home/pekatour/.opam/4.11.0/lib/sexplib0 -I /home/pekatour/.opam/4.11.0/lib/time_now -intf-suffix .ml -no-alias-deps -opaque -open Tp -o .tp.objs/byte/tp__Trie.cmo -c -impl trie.pp.ml)
+> File "trie.ml", line 1, characters 0-10:
+> 1 | open Assoc
+>     ^^^^^^^^^^
+> Warning 33: unused open Tp.Assoc.
+> File "trie.ml", line 30, characters 43-52:
+> 30 | let appartient mot (Trie(arbre, decompose, recompose)) = 
+>                                                 ^^^^^^^^^
+> Warning 27: unused variable recompose.
+> File "trie.ml", line 66, characters 4-13:
+> 66 | let trie_dico (Trie(arbre, decompose, recompose)) = 
+>          ^^^^^^^^^
+> Warning 32: unused value trie_dico.
+> File "trie.ml", line 66, characters 27-36:
+> 66 | let trie_dico (Trie(arbre, decompose, recompose)) = 
+>                                 ^^^^^^^^^
+> Warning 27: unused variable decompose.
+> File "trie.ml", line 76, characters 12-13:
+> 76 | let affiche p abr = failwith "bug?" (*let (Trie(arbre, decompose, recompose)) = abr in
+>                  ^
+> Warning 27: unused variable p.
+> File "trie.ml", line 76, characters 14-17:
+> 76 | let affiche p abr = failwith "bug?" (*let (Trie(arbre, decompose, recompose)) = abr in
+>                    ^^^
+> Warning 27: unused variable abr.
+$ (cd _build/default && /home/pekatour/.opam/4.11.0/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -a -o tp.cma .tp.objs/byte/tp.cmo .tp.objs/byte/tp__Assoc.cmo .tp.objs/byte/tp__Arbre.cmo .tp.objs/byte/tp__Chaines.cmo .tp.objs/byte/tp__Trie.cmo .tp.objs/byte/tp__Menu_dico.cmo)
+$ (cd _build/default && /home/pekatour/.opam/4.11.0/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -24 -g -o .utop/utop.bc /home/pekatour/.opam/4.11.0/lib/ocaml/compiler-libs/ocamlcommon.cma /home/pekatour/.opam/4.11.0/lib/ocaml/compiler-libs/ocamlbytecomp.cma /home/pekatour/.opam/4.11.0/lib/ocaml/compiler-libs/ocamltoplevel.cma /home/pekatour/.opam/4.11.0/lib/findlib/findlib.cma /home/pekatour/.opam/4.11.0/lib/findlib/findlib_top.cma /home/pekatour/.opam/4.11.0/lib/logs/logs.cma /home/pekatour/.opam/4.11.0/lib/lwt/lwt.cma /home/pekatour/.opam/4.11.0/lib/logs/logs_lwt.cma /home/pekatour/.opam/4.11.0/lib/ocaml/unix.cma /home/pekatour/.opam/4.11.0/lib/ocaml/bigarray.cma /home/pekatour/.opam/4.11.0/lib/ocplib-endian/ocplib_endian.cma /home/pekatour/.opam/4.11.0/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cma /home/pekatour/.opam/4.11.0/lib/ocaml/threads/threads.cma /home/pekatour/.opam/4.11.0/lib/lwt/unix/lwt_unix.cma -I /home/pekatour/.opam/4.11.0/lib/lwt/../stublibs /home/pekatour/.opam/4.11.0/lib/react/react.cma /home/pekatour/.opam/4.11.0/lib/lwt_react/lwt_react.cma /home/pekatour/.opam/4.11.0/lib/result/result.cma /home/pekatour/.opam/4.11.0/lib/uutf/uutf.cma /home/pekatour/.opam/4.11.0/lib/uucp/uucp.cma /home/pekatour/.opam/4.11.0/lib/uuseg/uuseg.cma /home/pekatour/.opam/4.11.0/lib/zed/zed.cma /home/pekatour/.opam/4.11.0/lib/trie/trie.cma /home/pekatour/.opam/4.11.0/lib/mew/mew.cma /home/pekatour/.opam/4.11.0/lib/mew_vi/mew_vi.cma /home/pekatour/.opam/4.11.0/lib/lambda-term/lambda_term.cma -I /home/pekatour/.opam/4.11.0/lib/lambda-term/../stublibs /home/pekatour/.opam/4.11.0/lib/xdg/xdg.cma -I /home/pekatour/.opam/4.11.0/lib/xdg/../stublibs /home/pekatour/.opam/4.11.0/lib/utop/uTop.cma /home/pekatour/.opam/4.11.0/lib/ppx_inline_test/config/inline_test_config.cma /home/pekatour/.opam/4.11.0/lib/base/base_internalhash_types/base_internalhash_types.cma -I /home/pekatour/.opam/4.11.0/lib/base/../stublibs /home/pekatour/.opam/4.11.0/lib/base/caml/caml.cma /home/pekatour/.opam/4.11.0/lib/sexplib0/sexplib0.cma /home/pekatour/.opam/4.11.0/lib/base/shadow_stdlib/shadow_stdlib.cma /home/pekatour/.opam/4.11.0/lib/base/base.cma -I /home/pekatour/.opam/4.11.0/lib/base/../stublibs /home/pekatour/.opam/4.11.0/lib/jane-street-headers/jane_street_headers.cma /home/pekatour/.opam/4.11.0/lib/ppx_sexp_conv/runtime-lib/ppx_sexp_conv_lib.cma /home/pekatour/.opam/4.11.0/lib/ppx_compare/runtime-lib/ppx_compare_lib.cma /home/pekatour/.opam/4.11.0/lib/ppx_enumerate/runtime-lib/ppx_enumerate_lib.cma /home/pekatour/.opam/4.11.0/lib/ppx_hash/runtime-lib/ppx_hash_lib.cma /home/pekatour/.opam/4.11.0/lib/time_now/time_now.cma -I /home/pekatour/.opam/4.11.0/lib/time_now/../stublibs /home/pekatour/.opam/4.11.0/lib/ppx_inline_test/runtime-lib/ppx_inline_test_lib.cma tp.cma .utop/.utop.eobjs/byte/dune__exe__Utop.cmo -linkall -warn-error -31)
