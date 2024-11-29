@@ -1,5 +1,7 @@
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /** L'objectif est de faire un lanceur simple sans utiliser toutes les clases
   * de notre architecture JUnit.   Il permet juste de valider la compréhension
@@ -63,18 +65,24 @@ public class LanceurIndependant {
 		// Récupérer la classe
 		Class<?> classe = Class.forName(nomClasse);
 
+		// Récupérer toutes les méthodes
+		Method[] allMethods = classe.getMethods();
+
 		// Récupérer les méthodes "preparer" et "nettoyer"
 		Method preparer = null;
 		Method nettoyer = null;
+		
 		try {
-			preparer = classe.getMethod("preparer", null);
-		} catch (NoSuchMethodException e) {
+			preparer = Arrays.asList(allMethods).stream().filter(m -> m.isAnnotationPresent(Avant.class)).findFirst().orElseThrow();
+		} catch (NoSuchElementException e) {
 		}
 		try {
-			nettoyer = classe.getMethod("nettoyer", null);
-		} catch (NoSuchMethodException e) {
-		}
+			nettoyer = Arrays.asList(allMethods).stream().filter(m -> m.isAnnotationPresent(Apres.class)).findFirst().orElseThrow();
 
+		} catch (NoSuchElementException e) {
+		}
+		
+		
 		// Instancier l'objet qui sera le r�cepteur des tests
 		Object objet = null;
 		try {
@@ -89,9 +97,8 @@ public class LanceurIndependant {
 
 		// Exécuter les méthods de test
 
-		Method[] allMethods = classe.getMethods();
 		for (Method m : allMethods) {
-			if (m.getName().startsWith("test")) {
+			if (m.isAnnotationPresent(UnTest.class)) {
 				String[] modifiers = Modifier.toString(m.getModifiers()).split(" ");
 				if (modifiers.length == 1 && Arrays.asList(modifiers).contains("public")) {
 					try {
