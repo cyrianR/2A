@@ -57,9 +57,8 @@ function newton(f::Function, gradf::Function, hessf::Function, x0::Union{Real,Ve
          break
       end
 
-      print(eigvals(hessf(x_sol)))
-      print("\n")
-      dir_Newton = hessf(x_sol) \ -gradf(x_sol)
+      dir_Newton = hessf(x_sol) \ -gradf(x_sol) # devrait générer une erreur pour le dernier test
+                                                # mais aucune erreur n'est levée donc mon dernier test ne passe par sur ma machine
       x_sol = x_sol + dir_Newton
       f_sol = f(x_sol)
       nb_iters = nb_iters + 1

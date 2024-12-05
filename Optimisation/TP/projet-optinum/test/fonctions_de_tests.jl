@@ -60,7 +60,7 @@ end
 hess_fct1(x) = [6 2 4;2 8 2;4 2 6]
 
 """
-La première fonction de test
+La deuxième fonction de test
 
 # Expression
     fct2(x)=100*(x[2]-x[1]^2)^2+(1-x[1])^2
