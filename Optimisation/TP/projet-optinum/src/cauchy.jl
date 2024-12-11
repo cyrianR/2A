@@ -33,14 +33,24 @@ Approximation de la solution du problème
 function cauchy(g::Vector{<:Real}, H::Matrix{<:Real}, Δ::Real; tol_abs::Real = 1e-10)
     
     # problème min φ := 1/2at² + bt + c
-    a = g' * H * g
-    b = - norm(g)^2
-    t = - b / (2 * a)
 
-    if Δ > norm(g)
-        s = - Δ / norm(g)
+    a = g' * H * g
+    if a == 0
+        s = - (Δ / norm(g)) * g
     else 
-        s = -t * g
+        b = - norm(g)^2
+        t = - b / (2 * a)
+        if norm(t) < Δ / norm(g)
+            s = - t * g
+        else 
+            s = - (Δ / norm(g)) * g
+        end
+    end
+
+    # if Δ > norm(g)
+    #     s = - Δ / norm(g)
+    # else 
+    #     s = -t * g
 
     return s
 end
