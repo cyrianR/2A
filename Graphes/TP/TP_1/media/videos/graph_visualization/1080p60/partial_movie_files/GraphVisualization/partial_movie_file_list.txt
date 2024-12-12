@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:/home/crt4254/Documents/2A/Graphes/TP/TP_1/media/videos/graph_visualization/1080p60/partial_movie_files/GraphVisualization/2058201344_1671137304_2358810818.mp4'
+file 'file:/home/crt4254/Documents/2A/Graphes/TP/TP_1/media/videos/graph_visualization/1080p60/partial_movie_files/GraphVisualization/3653221558_1972437404_1384009939.mp4'
+file 'file:/home/crt4254/Documents/2A/Graphes/TP/TP_1/media/videos/graph_visualization/1080p60/partial_movie_files/GraphVisualization/3653221558_1122450819_3065644014.mp4'
