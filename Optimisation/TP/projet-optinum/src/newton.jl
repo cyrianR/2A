@@ -39,18 +39,17 @@ Approximation d'une solution du problème min f(x), x ∈ Rⁿ, en utilisant l'a
    x_sol, f_sol, flag, nb_iters, xs = newton(f, gradf, hessf, x0, max_iter=10)
 
 """
-function newton(f::Function, gradf::Function, hessf::Function, x0::Union{Real,Vector{<:Real}}; 
+function newton(f::Function,gradf::Function, hessf::Function, x0::Union{Real,Vector{<:Real}}; 
     max_iter::Integer = 1000, 
     tol_abs::Real = 1e-10, 
     tol_rel::Real = 1e-8, 
     epsilon::Real = 1)
 
-    #
     x_sol = x0
     f_sol = f(x_sol)
     flag  = -1
     nb_iters = 0
-    xs = [x0] # vous pouvez faire xs = vcat(xs, [xk]) pour concaténer les valeurs
+    xs = [x0]
     while true
       if norm(gradf(x_sol)) <= tol_abs
          flag = 0

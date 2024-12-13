@@ -39,7 +39,7 @@ function cauchy(g::Vector{<:Real}, H::Matrix{<:Real}, Δ::Real; tol_abs::Real = 
         s = - (Δ / norm(g)) * g
     else 
         b = - norm(g)^2
-        t = - b / (2 * a)
+        t = - b / a
         if norm(t) < Δ / norm(g)
             s = - t * g
         else 

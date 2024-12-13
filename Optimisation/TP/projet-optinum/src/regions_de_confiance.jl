@@ -57,12 +57,64 @@ function regions_de_confiance(f::Function, gradf::Function, hessf::Function, x0:
     Δ0::Real=2, Δmax::Real=10, γ1::Real=0.5, γ2::Real=2, η1::Real=0.25, η2::Real=0.75, algo_pas::String="gct",
     max_iter_gct::Integer = 2*length(x0))
 
-    #
+    Δ = Δ0
     x_sol = x0
     f_sol = f(x_sol)
     flag  = -1
     nb_iters = 0
-    xs = [x0] # vous pouvez faire xs = vcat(xs, [xk]) pour concaténer les valeurs
+    xs = [x0]
+
+    while true
+        if norm(gradf(x_sol)) <= tol_abs
+           flag = 0
+           break
+        end
+  
+        if algo_pas == "cauchy"
+            s = cauchy(gradf(x_sol), hessf(x_sol), Δ; tol_abs)
+        else
+            s = 5 # TODO
+        end
+
+        # calcul de la différence entre f et le modèle m
+        diff_f_m = (f_sol - f(x_sol + s)) / (-gradf(x_sol)'*s - 0.5*s'*hessf(x_sol)*s)
+
+        if diff_f_m >= η1
+            # mise à jour de l'itéré
+            x_sol = x_sol + s
+        end
+        if diff_f_m >= η2
+            # on augmente la région de confiance
+            Δ = min(γ2*Δ, Δmax)
+        elseif diff_f_m <= η1
+            # on diminue la région de confiance
+            Δ = γ1*Δ
+        end
+
+        # mise à jour des variables
+        f_sol = f(x_sol)
+        nb_iters = nb_iters + 1
+        xs = vcat(xs, [x_sol])
+
+        x_sol_prev = xs[length(xs) - 1]
+        if norm(gradf(x_sol)) <= max(tol_rel * norm(gradf(x_sol_prev)), tol_abs)
+           # condition d'arrêt CN1
+           flag = 0
+           break
+        elseif diff_f_m >= η1 && norm(x_sol - x_sol_prev) <= epsilon * max(tol_rel * norm(x_sol_prev), tol_abs)
+           # condition d'arrêt stagnation de l'itéré
+           flag = 1
+           break
+        elseif diff_f_m >= η1 && abs(f_sol - f(x_sol_prev)) <= epsilon * max(tol_rel * abs(f(x_sol_prev)), tol_abs)
+           # condition d'arrêt stagnation de la fonction
+           flag = 2
+           break
+        elseif nb_iters == max_iter
+           # condition d'arrêt nb d'itérations max
+           flag = 3
+           break
+        end
+      end
 
     return x_sol, f_sol, flag, nb_iters, xs
 end
