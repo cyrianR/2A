@@ -62,13 +62,25 @@ function lagrangien_augmente(f::Function, gradf::Function, hessf::Function,
         max_iter::Integer=1000, tol_abs::Real=1e-10, tol_rel::Real=1e-8,
         λ0::Real=2, μ0::Real=10, τ::Real=2, algo_noc::String="rc-gct")
 
-    #
     x_sol = x0
     f_sol = f(x_sol)
     flag  = -1
     nb_iters = 0
     μs = [μ0] # vous pouvez faire μs = vcat(μs, μk) pour concaténer les valeurs
     λs = [λ0]
+
+    while true
+        
+        if algo_noc == "rc-gct"
+            x_sol = regions_de_confiance(f, )
+        elseif algo_noc == "rc-cauchy"
+
+        elseif algo_noc == "newton"
+        
+        end
+        f_sol = f(x_sol)
+
+    end
 
     return x_sol, f_sol, flag, nb_iters, μs, λs
 

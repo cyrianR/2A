@@ -65,18 +65,13 @@ function regions_de_confiance(f::Function, gradf::Function, hessf::Function, x0:
     xs = [x0]
 
     while true
-        if norm(gradf(x_sol)) <= tol_abs
-           flag = 0
-           break
-        end
-  
         if algo_pas == "cauchy"
             s = cauchy(gradf(x_sol), hessf(x_sol), Δ; tol_abs)
         else
-            s = 5 # TODO
+            s = gct(gradf(x_sol), hessf(x_sol), Δ; max_iter=max_iter_gct, tol_abs, tol_rel)
         end
 
-        # calcul de la différence entre f et le modèle m
+        # calcul du ratio de la réduction de f par rapport au modèle m
         diff_f_m = (f_sol - f(x_sol + s)) / (-gradf(x_sol)'*s - 0.5*s'*hessf(x_sol)*s)
 
         if diff_f_m >= η1
@@ -86,7 +81,7 @@ function regions_de_confiance(f::Function, gradf::Function, hessf::Function, x0:
         if diff_f_m >= η2
             # on augmente la région de confiance
             Δ = min(γ2*Δ, Δmax)
-        elseif diff_f_m <= η1
+        elseif diff_f_m < η1
             # on diminue la région de confiance
             Δ = γ1*Δ
         end
@@ -96,8 +91,9 @@ function regions_de_confiance(f::Function, gradf::Function, hessf::Function, x0:
         nb_iters = nb_iters + 1
         xs = vcat(xs, [x_sol])
 
+        # tests d'arrêt
         x_sol_prev = xs[length(xs) - 1]
-        if norm(gradf(x_sol)) <= max(tol_rel * norm(gradf(x_sol_prev)), tol_abs)
+        if norm(gradf(x_sol)) <= max(tol_rel * norm(gradf(x0)), tol_abs)
            # condition d'arrêt CN1
            flag = 0
            break
@@ -114,7 +110,7 @@ function regions_de_confiance(f::Function, gradf::Function, hessf::Function, x0:
            flag = 3
            break
         end
-      end
+    end
 
     return x_sol, f_sol, flag, nb_iters, xs
 end

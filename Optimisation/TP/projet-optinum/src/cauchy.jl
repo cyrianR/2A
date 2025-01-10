@@ -34,23 +34,13 @@ function cauchy(g::Vector{<:Real}, H::Matrix{<:Real}, Δ::Real; tol_abs::Real = 
     
     # problème min φ := 1/2at² + bt + c
 
-    a = g' * H * g
-    if a == 0
-        s = - (Δ / norm(g)) * g
-    else 
-        b = - norm(g)^2
-        t = - b / a
-        if norm(t) < Δ / norm(g)
-            s = - t * g
-        else 
-            s = - (Δ / norm(g)) * g
-        end
+    a = g'*H*g
+    if a <= 0
+        t = Δ / norm(g)
+    else
+        t = min(Δ / norm(g), norm(g)^2 / a)
     end
-
-    # if Δ > norm(g)
-    #     s = - Δ / norm(g)
-    # else 
-    #     s = -t * g
+    s = -t * g
 
     return s
 end
