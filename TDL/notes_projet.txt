@@ -1,0 +1,40 @@
+- pk les constantes ne peuvent pas être gérées par pointeurs : la façon dont on a traité les pointeurs dans les TP ne permet par de leur donner une adresse. amélioration possible ou on considère que c'est une perte de mémmoire de faire ça
+
+- pour gérer les pointeurs de pointeurs : il faut faire une récurrence dans les passes gestion id, type et génération code
+
+- dans la passe génération de code il faut une variable isDeref pour ne pas boucler plusieurs fois si il y a des pointeurs de pointeurs (un déréférencement ne se fait qu'en une fois par une fois, on ne peut pas déréférencer directement 2 fois)
+amélioration possible
+
+- variable modif dans passes génération de code et gestion id (pour vérifier id à droite ou à gauche), pas modifier les constantes
+
+- utilisation Undefined pour les pointeurs : null est un pointeur sur le type Undefined
+et un pointeur sur Undefined peut être un pointeur sur un autre type
+
+- modifs dans autres fichiers :
+	- printerAst : pour print les nouveaux symboles ajoutés au language
+	- type.ml : ajout type pointeur + modifs fonctions appropriées + tests unitaires des fonctions
+
+- passe lexer et parser modifées pour les nouveaux symboles et nouvelles règles de production de notre grammaire
+
+- ajout de l'affichage des pointeurs (dans toutes les passes) : ça affiche l'adresse enregistrée par le pointeur
+
+- amélioration possible : malloc pour les pointeurs (et autres opérations d'allocation de mémoire), structures de données (à la "typedef struct" en C), free (pour libérer la mémoire des pointeurs), pointeurs sur fonctions (utiles pour comportements dynamiques, callbacks)
+
+- on peut déclarer des pointeurs de pointeurs vides mais ils ne peuvent pas être utilisés, il faudrait leur donner la valeur "null" récursvivement ? mais trop compliqué. Soit on peut considérer que c'est à l'utilisateur de bien utiliser ses pointeurs et ne pas utiliser un pointeur non initialisé avec une valeur, ou on pourrait mettre la valeur "null" par défaut à tout emplacement mémoire alloué non initialisé
+- dans la même idée, les pointeurs initialisés avec new devraient être nuls mais ici non
+
+- améliorarion possible : on pourrait ajouter les conversion d'entier à rat ou rat à entier quand c'est possible
+
+- null est de type Pointeur (Undefined) et voir les compatibilités associées dans type.ml (on fait ça pour les affectation)
+
+- excpetion TypeNonPointeur pour le déréférencement de variables non pointeurs dans la passe typage
+
+- beaucou de tests dans la passe type pour pointeurs mais pas totalement exhaustifs (tester toutes les combinaisons de types pour toutes les instructions et expressions possibles est long, même si on a tenté de le faire pour les affectations et declarations au moins)
+
+- on aurait pu mettre que null puisse être comparé comme un booléen valant faux comme dans plusieurs languages
+
+- amélioration possible : fonction retournant void (comme on a les pointeurs il aurait été intéressant d'avoir des fonctions quie ne renvoient rien comme on peut faire des calculs sur les variables avec leur adresse
+
+- ajout opération binaire égalité sur les pointeurs : "EquPointer" dans binaire astType, changement passe type et passe code rat
+
+- on a associé la valeur 0 à Null pour comparer facielemtn des pointeirs mais on aurait pu utiliser MVoid qui est plus adapté peut etre

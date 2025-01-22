@@ -57,29 +57,79 @@ par l'algorithme du lagrangien augmenté.
     x_sol, _ = lagrangien_augmente(f, gradf, hessf, c, gradc, hessc, x0, algo_noc="rc-gct")
 
 """
-function lagrangien_augmente(f::Function, gradf::Function, hessf::Function, 
-        c::Function, gradc::Function, hessc::Function, x0::Vector{<:Real}; 
-        max_iter::Integer=1000, tol_abs::Real=1e-10, tol_rel::Real=1e-8,
-        λ0::Real=2, μ0::Real=10, τ::Real=2, algo_noc::String="rc-gct")
+function lagrangien_augmente(f::Function, gradf::Function, hessf::Function,
+    c::Function, gradc::Function, hessc::Function, x0::Vector{<:Real};
+    max_iter::Integer=1000, tol_abs::Real=1e-10, tol_rel::Real=1e-8,
+    λ0::Real=2, μ0::Real=10, τ::Real=2, algo_noc::String="rc-gct")
 
+    flag  = -1
     x_sol = x0
     f_sol = f(x_sol)
-    flag  = -1
-    nb_iters = 0
-    μs = [μ0] # vous pouvez faire μs = vcat(μs, μk) pour concaténer les valeurs
+    μs = [μ0]
     λs = [λ0]
+    μk = μ0
+    λk = λ0
+    nb_iters = 0
+    β = 0.9
+    η_ch = 0.1258925
+    α = 0.1
+    ε0 = 1/μ0
+    η0 = η_ch/(μ0^α)
+    ηk = η0
+    εk = ε0
+    
+    # lagrangien
+    L(x) = f(x) + λk'*c(x)
+    # lagrangien augmenté
+    LA(x) = f(x) + λk'*c(x) + (μk/2)*norm(c(x))^2
+    
+    gradL0 = gradf(x0) + λ0'*gradc(x0)
+    gradL(x) = gradf(x) + λk'*gradc(x)
+    gradLA(x) = gradL(x) + μk*gradc(x)*c(x)
+
+    hessL(x) = hessf(x) + (λk'*hessc(x))
+    hessLA(x) = hessL(x) + μk*(hessc(x)*c(x) + gradc(x)*gradc(x)')
 
     while true
-        
-        if algo_noc == "rc-gct"
-            x_sol = regions_de_confiance(f, )
-        elseif algo_noc == "rc-cauchy"
-
-        elseif algo_noc == "newton"
-        
+        # minimisation du problème sans contraintes
+        while norm(gradLA(x_sol)) > εk
+            if algo_noc == "newton"
+                x_sol, _ = newton(LA, gradLA, hessLA, x_sol)
+            elseif algo_noc == "rc-cauchy"
+                x_sol, _ = regions_de_confiance(LA, gradLA, hessLA, x_sol, algo_pas="cauchy")
+            else
+                x_sol, _ = regions_de_confiance(LA, gradLA, hessLA, x_sol, algo_pas="gct")
+            end
         end
-        f_sol = f(x_sol)
 
+        # mise à jour des multiplicateurs
+        if norm(c(x_sol)) <= ηk
+            λk = λk + μk*c(x_sol)
+            μs = μs
+            εk = εk/μk
+            ηk = ηk/(μk^β)
+        else
+            λk = λk
+            μk = τ*μk
+            εk = ε0/μk
+            ηk = η_ch/(μk^α)
+        end
+
+        # mise à jour des variables
+        μs = vcat(μs, μk)
+        λs = vcat(λs, λk)
+        nb_iters = nb_iters + 1
+
+        # tests d'arrêt
+        if (norm(gradL(x_sol)) <= max(tol_rel*norm(gradL0), tol_abs)) && (norm(c(x_sol)) <= max(tol_rel*norm(c(x0)), tol_abs))
+            # condition d'arrêt CN1
+            flag = 0
+            break;
+        elseif nb_iters == max_iter
+            # condition d'arrêt nb d'itérations max
+            flag = 3
+            break;
+        end
     end
 
     return x_sol, f_sol, flag, nb_iters, μs, λs
