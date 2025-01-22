@@ -35,7 +35,7 @@ hold on;
 
 % Calcul des donnees d'apprentissage (bruit blanc sur x et sur y) :
 n_app = 100;
-sigma = 1;
+sigma = 0;
 theta_app = 2*pi*rand(1,n_app);
 D_app = R*[a*cos(theta_app);b*sin(theta_app)]+[x_C;y_C]*ones(1,n_app)+sigma*randn(2,n_app);
 
