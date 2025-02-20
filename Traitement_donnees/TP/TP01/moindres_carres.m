@@ -16,7 +16,7 @@ function [X] = moindres_carres(D_app)
     B = zeros(n_app+1, 1);
     B(n_app+1) = 1;
 
-    X = B \ A
+    X = A \ B;
 
 end
 
