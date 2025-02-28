@@ -5,7 +5,7 @@ L = taille_ecran(3);
 H = taille_ecran(4);
 
 % Selection d'images parmi 15 individus et 6 postures faciales :
-chemin = '/mnt/n7fs/ens/tp_queau/Images_TP2_TAV';
+chemin = './data';
 numeros_individus = [2 4 9 13];
 numeros_postures = [1 2 3];
 n_ind = length(numeros_individus);
