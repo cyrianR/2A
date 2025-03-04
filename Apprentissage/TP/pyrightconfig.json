@@ -1,6 +1,12 @@
 {
     "exclude": [ ".venv" ],
     "venvPath": ".",
-    "venv": ".venv"
+    "venv": ".venv",
+    "reportUnknownMemberType": false,
+    "reportUnknownArgumentType": false,
+    "reportUnknownVariableType": false,
+    "reportUnknownParameterType": false,
+    "reportMissingParameterType": false,
+    "ignore": ["*"]
   
   }

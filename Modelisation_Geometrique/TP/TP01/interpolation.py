@@ -59,8 +59,9 @@ def regular_parametrisation(nb_point: int) -> List[float]:
     Returns:
         List[float]: A list containing the regular abscissas.
     """
-
-    return [k/nb_point for k in range(0,nb_point)]
+    
+    pas = 1/(nb_point - 1)
+    return [0] + [pas*k + pas for k in range(nb_point - 1)]
 
 
 
@@ -77,9 +78,17 @@ def distance_parametrisation(XX: List[float], YY: List[float]) -> List[float]:
         List[float]: A list containing the abscissas proportional to the distances.
     """
 
-    
+    distances = [np.sqrt((XX[i] - XX[i+1])**2 + (YY[i] - YY[i+1])**2) for i in range(len(XX)-1)]
 
-    return [1]
+    subdiv = [0]
+    for i in range(len(distances)):
+        subdiv.append(subdiv[-1] + distances[i])
+
+    min = np.min(subdiv)
+    max = np.max(subdiv)
+    subdiv_normalized = [(subdiv[i] - min) / (max - min) for i in range(len(subdiv))]
+
+    return subdiv_normalized
 
 
 
@@ -96,20 +105,17 @@ def parametrisation_racinedistance(XX: List[float], YY: List[float]) -> List[flo
         List[float]: A list containing the abscissas proportional to the square roots of the distances.
     """
 
-    # TODO
+    distances = [np.sqrt(np.sqrt((XX[i] - XX[i+1])**2 + (YY[i] - YY[i+1])**2)) for i in range(len(XX)-1)]
 
+    subdiv = [0]
+    for i in range(len(distances)):
+        subdiv.append(subdiv[-1] + distances[i])
 
+    min = np.min(subdiv)
+    max = np.max(subdiv)
+    subdiv_normalized = [(subdiv[i] - min) / (max - min) for i in range(len(subdiv))]
 
-
-
-
-
-
-
-
-
-    return [1]
-
+    return subdiv_normalized
 
 
 
@@ -132,12 +138,7 @@ def neville_param(XX, YY, TT, list_tt) -> Tuple[List[float], List[float]]:
         tuple: Two lists containing the interpolated x and y coordinates.
     """
 
-    # TODO
-
-
-
-
-    return [1], [1]
+    return [neville(TT, XX, x) for x in list_tt], [neville(TT, YY, x) for x in list_tt]
 
 
 def surface_interpolation_neville(X, Y, Z, TT_x,TT_y, list_tt, nb_points_x) -> np.ndarray:
@@ -161,20 +162,30 @@ def surface_interpolation_neville(X, Y, Z, TT_x,TT_y, list_tt, nb_points_x) -> n
     interpolated_surface_1 = np.zeros((nb_points_x, n, 3))  # Intermediate surface
     interpolated_surface = np.zeros((n, n, 3))  # Final interpolated surface
 
-    # TODO
+    ##############################
+    ## FAUX, REFAIRE ICI
+    ##############################
+    # interpolation according to X    
+    for i in range(nb_points_x):
+        for j in range(n):
+            for x in list_tt:
+                # interpolation for X
+                interpolated_surface_1[i,j,0] = neville(TT_x, X[i,:], x)
+                # interpolation for Y
+                interpolated_surface_1[i,j,1] = neville(TT_x, Y[i,:], x)
+                # interpolation for Z
+                interpolated_surface_1[i,j,2] = neville(TT_x, Z[i,:], x)
 
-
-
-
-
-
-
-
-
-
-
-
-
+    # interpolation according to Y  
+    for i in range(n):
+        for j in range(n):
+            for x in list_tt:
+                # interpolation for X
+                interpolated_surface[i,j,0] = neville(TT_y, interpolated_surface_1[:,i,0], x)
+                # interpolation for Y
+                interpolated_surface[i,j,1] = neville(TT_y, interpolated_surface_1[:,i,1], x)
+                # interpolation for Z
+                interpolated_surface[i,j,2] = neville(TT_y, interpolated_surface_1[:,i,2], x)
 
 
 
