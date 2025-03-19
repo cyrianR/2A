@@ -46,13 +46,13 @@ NB is the number of block-columns the matrix is made of.\n");
   
   printf("\n========== Sequential        (1 threads) ==========\n" );
   t_start = usecs();
-  trace_init();
+/*   trace_init();
   chol_seq(A);
   trace_dump("trace_seq.svg");
   t_end = usecs();
   printf("Time (msec.) : %7.1f\n",(t_end-t_start)/1e3);
   printf("Gflop/s      : %7.1f\n",flops/(t_end-t_start)/1e3);
-  printf("||Ax-b||     : %.4e\n",check_res(A, Acpy));
+  printf("||Ax-b||     : %.4e\n",check_res(A, Acpy)); */
 
   free_matrix(&A);
   copy_matrix(Acpy, &A);

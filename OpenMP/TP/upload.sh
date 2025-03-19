@@ -33,5 +33,5 @@ cd \${SLURM_SUBMIT_DIR}
 ./bench_weak 200 20
 EOF
 
-rsync --rsh='ssh -F none' -r ../TP_Chol_corr ${1}@turpanlogin.calmip.univ-toulouse.fr:${USER}/
+rsync --rsh='ssh -F none' -r ../TP ${1}@turpanlogin.calmip.univ-toulouse.fr:${USER}/
 

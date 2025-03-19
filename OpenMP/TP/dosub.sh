@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 #Job name
-#SBATCH -J abuttari
+#SBATCH -J crt4254
 # Asking for one node
 #SBATCH -N 1
 #SBATCH -n 1
@@ -11,11 +11,11 @@
 #SBATCH -o chol%j.out
 # Output error message
 #SBATCH -e chol%j.err
-#SBATCH -t 0:10:00
+#SBATCH -t 0:05:00
 ##SBATCH --exclusive
 
 module purge
-source ${HOME}/abuttari/TP_Chol_corr/env_cpuonly.sh
+source ${HOME}/crt4254/TP/env_cpuonly.sh
 
 cd ${SLURM_SUBMIT_DIR}
 
