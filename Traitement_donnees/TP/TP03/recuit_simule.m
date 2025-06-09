@@ -19,8 +19,8 @@ function [k] = recuit_simule(k,AD,beta,T)
 
             % compute local energies
             neighbors = k(max(1,i-1):min(n,i+1),max(1,j-1):min(m,j+1));
-            Us = AD(i,j,ks) + beta*(sum(1-(neighbors ~= ks), "all")-1);
-            Us_new = AD(i,j,k_new) + beta*(sum(1-(neighbors ~= k_new), "all"));
+            Us = AD(i,j,ks) + beta*(sum(neighbors ~= ks, "all")-1);
+            Us_new = AD(i,j,k_new) + beta*(sum(neighbors ~= k_new, "all"));
 
             % compare energies and update class
             if Us_new < Us

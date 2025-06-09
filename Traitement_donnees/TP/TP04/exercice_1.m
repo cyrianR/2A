@@ -7,7 +7,7 @@ H = taille_ecran(4);
 
 
 % Parametres :
-N = 50;					% Nombre de disques d'une configuration
+N = 290;					% Nombre de disques d'une configuration
 R = 7;					% Rayon des disques
 nb_points_affichage_disque = 30;
 increment_angulaire = 2*pi/nb_points_affichage_disque;
@@ -34,7 +34,7 @@ for k = 1:N
         out = true;
 	    c_k = [nb_colonnes*rand nb_lignes*rand];
         for i = 1:k-1
-            if norm(c_k - c(i,:)) < sqrt(2)*R
+            if norm(c_k - c(i,:)) < 2*R % 2 au lieu de sqrt(2)
                 out = false;
             end
         end
@@ -80,7 +80,7 @@ for q = 1:q_max
         out = true;
         c_alea = [nb_colonnes*rand nb_lignes*rand];
         for j = 1:N
-            if norm(c_alea - c(j,:)) < sqrt(2)*R
+            if norm(c_alea - c(j,:)) < 2*R % 2 au lieu de sqrt(2)
                 out = false;
             end
         end
